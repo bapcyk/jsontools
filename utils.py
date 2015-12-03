@@ -1,3 +1,6 @@
+import re
+
+
 MISS = object()
 
 def surrwith(s, c, paired=True):
@@ -30,3 +33,17 @@ def safe_eval(expr, *args, default=None):
 def getitem(obj, item, default=None):
     try: return obj[item]
     except (KeyError, IndexError): return default
+
+
+def splitesc(string, sep, trim=True):
+    ''' Split string by `sep` and `trim` it if need. To escape
+    `sep` double one are used:
+    >>> splitesc('aaa;;1;bbb ; ccc ', ';', True)
+    ['aaa;1', 'bbb', 'ccc']
+    '''
+    unesc = lambda s: s.replace(2*sep, sep)
+    rexp = '(?<!{0}){0}(?!{0})'.format(sep)
+    fnd = re.split(rexp, string)
+    if not trim: return fnd
+    else:
+        return [unesc(s) for s in map(str.strip, fnd) if s]

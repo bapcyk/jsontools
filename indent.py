@@ -5,6 +5,9 @@ class IndentError(Exception):
     pass
 
 
+block = namedtuple('Block', 'op cnt ln')
+
+
 def strindent(s, tabstep=None):
     """ Returns pair: (indent, valuable string):
     indent as number of spaces/tabs, if no tabstep,
@@ -65,7 +68,6 @@ def indentlines(lines):
 
 
 def indentblocks(lines):
-    block = namedtuple('Block', 'op cnt ln')
     prevlev = 0
     for lev, ln in indentlines(lines):
         if lev > prevlev:
@@ -77,6 +79,7 @@ def indentblocks(lines):
         prevlev = lev
 
 
-with open('schema.jv', 'rt') as f:
-    for b in indentblocks(f.read().splitlines()):
-        print(b)
+# FIXME del!!!
+# with open('schema.jv', 'rt') as f:
+#     for b in indentblocks(f.read().splitlines()):
+#         print(b)
