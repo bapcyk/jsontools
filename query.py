@@ -1,17 +1,10 @@
+from utils import *
 
 NDEBUG = 0
 
 
 def prn(*args, **kwargs):
     if not NDEBUG: print(*args, **kwargs)
-
-
-def surrwith(s, c, paired=True):
-    if paired:
-        c1 = c
-        c2 = {'(': ')', '[': ']', '{': '}', '<': '>'}.get(c1, c1)
-    else: c1 = c2 = c
-    return s.startswith(c1) and s.endswith(c2)
 
 
 def atom(s):
@@ -21,18 +14,6 @@ def atom(s):
         except:
             try: return float(s)
             except: raise ValueError("invalid literal (str, int, float): '%s'" % s)
-
-
-def values(obj):
-    if isinstance(obj, dict):
-        yield from obj.values()
-    elif isinstance(obj, (list, tuple)):
-        yield from obj
-
-
-def safe_eval(expr, *args, default=None):
-    try: return eval(expr, *args)
-    except: return default
 
 
 class Query:
